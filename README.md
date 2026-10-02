@@ -21,7 +21,9 @@ web/
 │       └── openchallenge/    # 오픈 챌린지 과제 
 ├── 0930/                 # 9월 30일 수업 실습 예제 및 과제
 │   ├── chap/             # 5장 CSS3 배치 및 고급 스타일 실습 예제 (1.html ~ 16.html)
-│   └── openchallenge/    # 오픈 챌린지 과제 폴더
+│   ├── openchallenge/    # 오픈 챌린지 과제 폴더
+│   ├── index.html        # 개인 이력서 및 자기소개서 웹페이지
+│   └── style.css         # 이력서 페이지 커스텀 스타일시트
 ├── media/                # 이미지, 오디오 등 실습에 사용되는 미디어 리소스
 └── README.md             # 프로젝트 소개 및 안내 문서
 ```

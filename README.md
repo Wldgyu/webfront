@@ -26,7 +26,9 @@ web/
 │   └── style.css         # 자소서 페이지 커스텀 스타일시트
 ├── 1007/                 # 10월 7일 수업 실습 예제 및 과제
 │   ├── chap/             # 6장 자바스크립트 기본 문법 및 연산자 실습 예제 (1.html ~ 14.html)
-│   └── openchallenge/    # 오픈 챌린지 과제 폴더
+│   ├── openchallenge/    # 오픈 챌린지 과제 폴더
+│   ├── leap_yearprompt.html # 윤년 계산기 (prompt)
+│   └── leap_yearform.html   # 윤년 계산기 (form)
 ├── media/                # 이미지, 오디오 등 실습에 사용되는 미디어 리소스
 └── README.md             # 프로젝트 소개 및 안내 문서
 ```

@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char email[50] = "donggyu@gmail.com";
+
+    // '@' 문자 위치 검색
+    char *at = strchr(email, '@');
+
+    if (at != NULL) {
+        *at = '\0'; // '@' 자리를 끊어서 앞부분을 독립된 문자열로 만듦
+        char *user = email;
+        char *host = at + 1; // '@' 바로 다음 위치
+
+        // 새 문자열 생성
+        printf("username: %s, domain: %s", user, host);
+    }
+
+    return 0;
+}

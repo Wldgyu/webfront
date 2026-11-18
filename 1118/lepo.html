@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이동규 (Lee Dong-gyu) | AI & 데이터 분석 포트폴리오</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Pretendard & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 부드러운 스크롤 및 기본 스타일 보정 */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            word-break: keep-all;
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- 상단 네비게이션 바 -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="text-lg font-bold tracking-tight text-navy-900 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                <span>LEE DONG-GYU</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#about" class="hover:text-blue-600 transition-colors">자기소개</a>
+                <a href="#target" class="hover:text-blue-600 transition-colors">희망 분야 & 역량</a>
+                <a href="#experience" class="hover:text-blue-600 transition-colors">학력 및 교육</a>
+                <a href="#projects" class="hover:text-blue-600 transition-colors">GitHub 프로젝트</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/Wldgyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+                   class="p-2 text-slate-600 hover:text-navy-900 hover:bg-slate-100 rounded-lg transition-colors">
+                    <i class="fab fa-github text-lg"></i>
+                </a>
+                <a href="#contact" class="px-4 py-2 text-sm font-medium text-white bg-navy-900 hover:bg-slate-800 rounded-lg transition-colors">
+                    연락하기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-20">
+
+        <!-- 1. 첫 문단: 핵심 요약 및 자기소개 섹션 (1단 집중 레이아웃) -->
+        <section id="about" class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm">
+            <div class="space-y-5">
+                <!-- 직무 배지 -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs sm:text-sm font-semibold">
+                    <i class="fas fa-bullseye"></i>
+                    <span>희망 분야 : AI · 데이터 분석</span>
+                </div>
+
+                <div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-navy-900 tracking-tight">
+                        안녕하세요, <span class="text-blue-600">이동규</span>입니다.
+                    </h1>
+                    <p class="mt-1.5 text-sm sm:text-base text-slate-500 font-medium">
+                        경성대학교 소프트웨어학과 · KT 에이블스쿨 8기 AI 개발자 트랙
+                    </p>
+                </div>
+
+                <!-- 자기소개글 입력/수정 칸 (면접관에게 어필할 핵심 요약) -->
+                <div class="pt-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">About Me (핵심 자기소개)</span>
+                        <button id="editIntroBtn" type="button" 
+                                class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-blue-600 px-2.5 py-1 rounded-md hover:bg-slate-100 transition-colors">
+                            <i class="fas fa-pen text-[11px]"></i>
+                            <span id="editBtnText">소개글 수정</span>
+                        </button>
+                    </div>
+
+                    <!-- 표시 모드 -->
+                    <div id="introDisplay" class="p-5 sm:p-6 bg-slate-50 rounded-xl border border-slate-200/80 text-slate-700 text-base sm:text-lg leading-relaxed">
+                        데이터 속 숨겨진 패턴을 발굴하고, 비즈니스 문제를 해결하는 AI 모델을 설계합니다. 탄탄한 소프트웨어 공학 전공 지식과 KT 에이블스쿨에서의 실전 AI 프로젝트 경험을 바탕으로, 현업에 즉시 기여할 수 있는 데이터 기반 문제 해결사로 성장하고 있습니다.
+                    </div>
+
+                    <!-- 편집 모드 (숨김 처리됨) -->
+                    <div id="introEditor" class="hidden space-y-3">
+                        <textarea id="introTextarea" rows="4" 
+                                  class="w-full p-4 bg-white rounded-xl border-2 border-blue-500 text-slate-800 text-base leading-relaxed focus:outline-none"
+                                  placeholder="면접관에게 보여줄 나만의 핵심 소개글을 작성해보세요..."></textarea>
+                        <div class="flex items-center justify-end gap-2">
+                            <button id="cancelIntroBtn" type="button" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-lg">
+                                취소
+                            </button>
+                            <button id="saveIntroBtn" type="button" class="px-4 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm">
+                                저장하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 핵심 지표 요약 바 (자격증 제외, 핵심 역량 중심 3열 구성) -->
+            <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="p-3.5 rounded-xl bg-slate-50/80">
+                    <p class="text-xs text-slate-500">전공</p>
+                    <p class="text-sm sm:text-base font-bold text-navy-900 mt-0.5">소프트웨어학과</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-50/80">
+                    <p class="text-xs text-slate-500">주요 교육</p>
+                    <p class="text-sm sm:text-base font-bold text-navy-900 mt-0.5">KT 에이블스쿨 8기 (AI 트랙)</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-50/80">
+                    <p class="text-xs text-slate-500">실전 경험</p>
+                    <p class="text-sm sm:text-base font-bold text-navy-900 mt-0.5">LLM · AI 모델링 · 빅프로젝트</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 희망 분야 및 핵심 역량 (Target Field & Core Skills) -->
+        <section id="target" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <h2 class="text-2xl font-bold text-navy-900">희망 분야 및 핵심 역량</h2>
+                    <p class="text-sm text-slate-500 mt-1">직무 적합성을 증명하는 기술 스택과 분석 역량입니다.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 희망 직무 카드 1: AI 엔지니어링 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-lg"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-navy-900">AI 모델링 & 딥러닝 엔지니어링</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        비정형 데이터(텍스트, 이미지) 및 정형 데이터를 다루며, 문제 정의부터 모델 학습, 하이퍼파라미터 튜닝, 성능 최적화까지 전 과정을 수행합니다.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">Python</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">PyTorch</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">LLM / RAG</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">Deep Learning</span>
+                    </div>
+                </div>
+
+                <!-- 희망 직무 카드 2: 데이터 분석 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-lg"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-navy-900">데이터 분석 & 비즈니스 인사이트 도출</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        결측치 및 이상치 전처리, 탐색적 데이터 분석(EDA), 통계적 가설 검정을 통해 의사결정에 실질적인 근거가 되는 지표를 시각화하고 제안합니다.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">SQL</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">Pandas / NumPy</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">EDA & 시각화</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md">Feature Engineering</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 교육, 자격증 및 활동 (Credentials & Experience) -->
+        <section id="experience" class="space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-navy-900">교육 이수 및 자격 사항</h2>
+                <p class="text-sm text-slate-500 mt-1">체계적인 AI 교육 과정과 공인 자격을 통해 기초를 다졌습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 교육 및 대외활동 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <h3 class="text-base font-bold text-navy-900 flex items-center gap-2 border-b border-slate-100 pb-3">
+                        <i class="fas fa-graduation-cap text-blue-600"></i>
+                        <span>학력 및 집중 교육</span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="relative pl-4 border-l-2 border-blue-600">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-bold text-navy-900">KT 에이블스쿨 (AIVLE School) 8기</h4>
+                                <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">AI 개발자 트랙</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">데이터 분석, 머신러닝/딥러닝, 미니 프로젝트 및 실전 기업 과제 수행</p>
+                        </li>
+                        <li class="relative pl-4 border-l-2 border-slate-300">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-bold text-navy-900">경성대학교 (Kyungsung University)</h4>
+                                <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded">소프트웨어학과</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">자료구조, 알고리즘, 데이터베이스, 소프트웨어 공학 등 CS 전공 기초 이수</p>
+                        </li>
+                        <li class="relative pl-4 border-l-2 border-slate-300">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-bold text-navy-900">데이터 분석 경진대회 참여</h4>
+                                <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded">Kaggle · DACON</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">실제 산업 데이터를 활용한 예측 모델링 및 피처 엔지니어링 실습</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 자격증 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <h3 class="text-base font-bold text-navy-900 flex items-center gap-2 border-b border-slate-100 pb-3">
+                        <i class="fas fa-certificate text-blue-600"></i>
+                        <span>보유 자격증</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-bold text-navy-900">Microsoft Certified: Azure AI Fundamentals</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Microsoft · 클라우드 기반 AI 및 머신러닝 워크로드 이해</p>
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md shrink-0">취득 완료</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-bold text-navy-900">AICE Associate (AI Certificate for Everyone)</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">KT · 파이썬 기반 데이터 분석 및 AI 모델링 실무 역량 검증</p>
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md shrink-0">취득 완료</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 학력 및 집중 교육 (자격증 섹션 제거 후 1단 깔끔한 구성) -->
+        <section id="experience" class="space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-navy-900">학력 및 교육</h2>
+                <p class="text-sm text-slate-500 mt-1">탄탄한 전공 기초와 실무 중심 AI 교육을 통해 역량을 다졌습니다.</p>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <ul class="space-y-5">
+                    <li class="relative pl-4 border-l-2 border-blue-600">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="text-base font-bold text-navy-900">KT 에이블스쿨 (AIVLE School) 8기</h3>
+                            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">AI 개발자 트랙</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">데이터 분석, 머신러닝/딥러닝, 미니 프로젝트 및 실전 기업형 빅프로젝트 수행</p>
+                    </li>
+                    <li class="relative pl-4 border-l-2 border-slate-300">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="text-base font-bold text-navy-900">경성대학교 (Kyungsung University)</h3>
+                            <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">소프트웨어학과</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">자료구조, 알고리즘, 데이터베이스, 소프트웨어 공학 등 CS 전공 핵심 이수</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 4. 주요 GitHub 프로젝트 섹션 -->
+        <section id="projects" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-navy-900">GitHub 프로젝트</h2>
+                    <p class="text-sm text-slate-500 mt-1">직접 설계하고 구현한 AI 모델링 및 서비스 개발 프로젝트입니다.</p>
+                </div>
+
+                <!-- 카테고리 필터 버튼 -->
+                <div class="inline-flex p-1 bg-slate-200/70 rounded-xl self-start" role="tablist">
+                    <button type="button" data-filter="all" class="filter-btn active px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-white text-navy-900 shadow-sm transition-all">
+                        전체
+                    </button>
+                    <button type="button" data-filter="ai" class="filter-btn px-3.5 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition-all">
+                        AI · LLM
+                    </button>
+                    <button type="button" data-filter="service" class="filter-btn px-3.5 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition-all">
+                        서비스 구현
+                    </button>
+                </div>
+            </div>
+
+            <!-- 프로젝트 카드 3열 그리드 -->
+            <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- 프로젝트 1: Stock LLM -->
+                <article class="project-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm card-hover flex flex-col justify-between" data-category="ai">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-blue-50 text-blue-700 rounded-md">AI · LLM</span>
+                            <i class="fab fa-github text-slate-400 text-base"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-navy-900">Stock LLM</h3>
+                        <p class="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                            LLM(거대언어모델)을 활용한 주식·금융 데이터 분석 및 투자 인사이트 제공 프로젝트
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 space-y-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#LLM</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#금융데이터</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#AI분석</span>
+                        </div>
+                        <a href="https://github.com/Wldgyu/stock_llm" target="_blank" rel="noopener noreferrer" 
+                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-navy-900 hover:bg-blue-600 rounded-xl transition-colors">
+                            <span>GitHub 저장소 보기</span>
+                            <i class="fas fa-arrow-up-right-from-square text-[11px]"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 프로젝트 2: Capstone AI -->
+                <article class="project-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm card-hover flex flex-col justify-between" data-category="ai">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 rounded-md">AI 모델링</span>
+                            <i class="fab fa-github text-slate-400 text-base"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-navy-900">Capstone AI</h3>
+                        <p class="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                            실전 데이터 기반 AI 모델 설계 및 성능 최적화를 수행한 캡스톤 프로젝트
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 space-y-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#AI모델링</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#데이터분석</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#캡스톤</span>
+                        </div>
+                        <a href="https://github.com/Wldgyu/capstone-ai" target="_blank" rel="noopener noreferrer" 
+                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-navy-900 hover:bg-blue-600 rounded-xl transition-colors">
+                            <span>GitHub 저장소 보기</span>
+                            <i class="fas fa-arrow-up-right-from-square text-[11px]"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 프로젝트 3: KT AIVLE School 8기 빅프로젝트 (Frontend) -->
+                <article class="project-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm card-hover flex flex-col justify-between" data-category="service">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-indigo-50 text-indigo-700 rounded-md">서비스 구현</span>
+                            <i class="fab fa-github text-slate-400 text-base"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-navy-900">KT AIVLE School 8기 빅프로젝트</h3>
+                        <p class="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                            KT 에이블스쿨 8기 AI 서비스 구축 빅프로젝트의 사용자 인터페이스 및 프론트엔드 구현
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 space-y-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#KTAIVLESchool</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#AI서비스</span>
+                            <span class="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded">#Frontend</span>
+                        </div>
+                        <a href="https://github.com/Joyusong/ai0917-kt-aivle-shool-8th-bigproject-frontend" target="_blank" rel="noopener noreferrer" 
+                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-navy-900 hover:bg-blue-600 rounded-xl transition-colors">
+                            <span>GitHub 저장소 보기</span>
+                            <i class="fas fa-arrow-up-right-from-square text-[11px]"></i>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- 5. 연락처 섹션 (Footer CTA) -->
+        <section id="contact" class="bg-navy-900 text-white rounded-2xl p-8 sm:p-10 text-center space-y-5">
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">함께 성장할 기회를 기다립니다</h2>
+            <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
+                AI 모델링 및 데이터 분석 직무와 관련하여 궁금한 점이 있으시다면 언제든 편하게 연락해 주세요.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+                <button id="copyEmailBtn" type="button" 
+                        class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors">
+                    <i class="far fa-envelope"></i>
+                    <span id="emailText">donggyu.lee@example.com</span>
+                    <span class="text-xs bg-blue-700/80 px-2 py-0.5 rounded ml-1">복사</span>
+                </button>
+                <a href="https://github.com/Wldgyu" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 rounded-xl transition-colors">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub 프로필</span>
+                </a>
+            </div>
+            <!-- 복사 알림 토스트 메시지 -->
+            <p id="copyFeedback" class="text-xs text-emerald-400 opacity-0 transition-opacity duration-200">
+                이메일 주소가 클립보드에 복사되었습니다!
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 py-8 text-center text-xs text-slate-400">
+        <p>© 2026 Lee Dong-gyu. Built for AI & Data Analysis Portfolio.</p>
+    </footer>
+
+    <!-- 인터랙션 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 자기소개글 인라인 수정 및 로컬 스토리지 저장 기능
+            const editIntroBtn = document.getElementById('editIntroBtn');
+            const introDisplay = document.getElementById('introDisplay');
+            const introEditor = document.getElementById('introEditor');
+            const introTextarea = document.getElementById('introTextarea');
+            const saveIntroBtn = document.getElementById('saveIntroBtn');
+            const cancelIntroBtn = document.getElementById('cancelIntroBtn');
+
+            const STORAGE_KEY = 'ldg_portfolio_intro';
+
+            // 저장된 소개글 불러오기
+            try {
+                const savedIntro = localStorage.getItem(STORAGE_KEY);
+                if (savedIntro && savedIntro.trim() !== '') {
+                    introDisplay.textContent = savedIntro;
+                }
+            } catch (e) {
+                console.warn('로컬 스토리지 접근 제한:', e);
+            }
+
+            // 수정 버튼 클릭
+            editIntroBtn.addEventListener('click', () => {
+                introTextarea.value = introDisplay.textContent.trim();
+                introDisplay.classList.add('hidden');
+                editIntroBtn.classList.add('hidden');
+                introEditor.classList.remove('hidden');
+                introTextarea.focus();
+            });
+
+            // 취소 버튼 클릭
+            cancelIntroBtn.addEventListener('click', () => {
+                introEditor.classList.add('hidden');
+                introDisplay.classList.remove('hidden');
+                editIntroBtn.classList.remove('hidden');
+            });
+
+            // 저장 버튼 클릭
+            saveIntroBtn.addEventListener('click', () => {
+                const updatedText = introTextarea.value.trim();
+                if (updatedText) {
+                    introDisplay.textContent = updatedText;
+                    try {
+                        localStorage.setItem(STORAGE_KEY, updatedText);
+                    } catch (e) {
+                        console.warn('저장 실패:', e);
+                    }
+                }
+                introEditor.classList.add('hidden');
+                introDisplay.classList.remove('hidden');
+                editIntroBtn.classList.remove('hidden');
+            });
+
+            // 2. 프로젝트 카테고리 필터링 기능
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 버튼 활성화 스타일 토글
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-white', 'text-navy-900', 'shadow-sm');
+                        b.classList.add('text-slate-600');
+                    });
+                    btn.classList.add('bg-white', 'text-navy-900', 'shadow-sm');
+                    btn.classList.remove('text-slate-600');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    projectCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        if (filterValue === 'all' || category === filterValue) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // 3. 이메일 주소 클립보드 복사 기능
+            const copyEmailBtn = document.getElementById('copyEmailBtn');
+            const emailText = document.getElementById('emailText');
+            const copyFeedback = document.getElementById('copyFeedback');
+
+            copyEmailBtn.addEventListener('click', () => {
+                const email = emailText.textContent.trim();
+                const tempInput = document.createElement('input');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                copyFeedback.classList.remove('opacity-0');
+                setTimeout(() => {
+                    copyFeedback.classList.add('opacity-0');
+                }, 2500);
+            });
+        });
+    </script>
+</body>
+</html>

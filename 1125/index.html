@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --blue: #4169e1;
+  --cyan: #4b91c8;
+  --text: #202b3c;
+  --muted: #737f90;
+  --border: #e8ebf0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(1050px, 88%);
+  margin: auto;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blue);
+  letter-spacing: -1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.nav-links a:hover {
+  color: var(--blue);
+}
+
+/* HERO */
+.hero {
+  min-height: 760px;
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  background: #f8faff;
+}
+
+.hero-content {
+  max-width: 850px;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: clamp(42px, 7vw, 76px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -3px;
+  margin-bottom: 30px;
+  color: #202b3c;
+}
+
+.gradient {
+  color: var(--blue);
+  background: none;
+}
+
+.hero-description {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 650px;
+  margin-bottom: 35px;
+  word-break: keep-all;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 11px 23px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: .25s;
+  border: 1px solid var(--blue);
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: white;
+}
+
+.btn-secondary {
+  color: var(--blue);
+  background: transparent;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  opacity: .8;
+}
+
+/* COMMON SECTION */
+section {
+  padding: 110px 0;
+}
+
+.section-label {
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 36px;
+  margin-bottom: 15px;
+  letter-spacing: -1.5px;
+  color: #202b3c;
+}
+
+.section-description {
+  color: var(--muted);
+  margin-bottom: 55px;
+  max-width: 650px;
+  font-size: 14px;
+  word-break: keep-all;
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 55px;
+  row-gap: 45px;
+}
+
+.card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  transition: .3s;
+}
+
+.card:hover {
+  transform: none;
+  border-color: transparent;
+}
+
+.card h3 {
+  font-size: 19px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 14px;
+  word-break: keep-all;
+}
+
+.major {
+  grid-column: span 2;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 40px;
+}
+
+.major h3 {
+  font-size: 32px;
+  color: var(--blue);
+}
+
+.major-detail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 35px;
+}
+
+.major-item {
+  padding: 0;
+  background: transparent;
+}
+
+.major-item span {
+  display: block;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.major-item b {
+  font-size: 14px;
+}
+
+.major-item p {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* SKILLS */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 65px;
+}
+
+.skill-icon {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.tag {
+  background: #f0f4fb;
+  color: #4169a8;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* PROJECTS */
+.projects {
+  background: #f8faff;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 65px;
+  row-gap: 55px;
+}
+
+.project-card {
+  border-top: 1px solid #dce3ee;
+  padding-top: 20px;
+}
+
+.project-number {
+  font-size: 11px;
+  color: var(--blue);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.project-card h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.project-card p {
+  min-height: 0;
+}
+
+.project-type {
+  color: var(--blue) !important;
+  font-size: 11px !important;
+  margin-top: 18px;
+  font-weight: 700;
+}
+
+/* HOBBY */
+.hobby-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+}
+
+.hobby-card {
+  min-height: auto;
+  display: block;
+  background: transparent;
+  border-top: 1px solid var(--border);
+  padding-top: 25px;
+}
+
+.hobby-card .emoji {
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+/* CONTACT */
+.contact {
+  text-align: center;
+  background: #f8faff;
+  padding: 120px 0;
+}
+
+.contact h2 {
+  font-size: 40px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.contact p {
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+
+/* FOOTER */
+footer {
+  padding: 25px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: #8993a3;
+  font-size: 12px;
+  background: white;
+}
+
+/* ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: .7s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MOBILE */
+@media(max-width: 700px) {
+  .nav-links {
+    gap: 12px;
+    font-size: 9px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
+  .hero {
+    min-height: 650px;
+  }
+
+  h1 {
+    letter-spacing: -2px;
+  }
+
+  .about-grid,
+  .skills-grid,
+  .project-grid,
+  .hobby-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .major {
+    grid-column: span 1;
+  }
+
+  .major-detail {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .skills-grid,
+  .project-grid,
+  .hobby-grid {
+    gap: 40px;
+  }
+
+  section {
+    padding: 80px 0;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .contact h2 {
+    font-size: 30px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="container">
+    <a href="#home" class="logo">MY PORTFOLIO.</a>
+    <div class="nav-links">
+      <a href="#about">ABOUT</a>
+      <a href="#skills">SKILLS</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#hobby">HOBBY</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section class="hero" id="home">
+    <div class="container hero-content">
+       <p class="eyebrow">MY PORTFOLIO</p>
+
+
+      <h1>
+      안녕하세요.<br>
+      소프트웨어 개발자를 꿈꾸는<br>
+      <span class="gradient">이동규입니다.</span>
+    </h1>
+
+      <p class="hero-description">
+        안녕하세요. 소프트웨어학과에서 소프트웨어 개발과
+        데이터 분석을 공부하고 있습니다.<br>
+        머신러닝과 딥러닝 기술을 활용하여 데이터를 분석하고
+        다양한 문제를 해결하는 개발자로 성장하고 있습니다.
+      </p>
+
+      <div class="buttons">
+        <a href="#about" class="btn btn-primary">ABOUT ME ↗</a>
+        <a href="#projects" class="btn btn-secondary">VIEW PROJECTS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label">01 / ABOUT ME</p>
+      <h2 class="section-title">Who I Am</h2>
+      <p class="section-description">
+        새로운 기술을 배우고 직접 구현하며
+        끊임없이 성장하는 개발자를 소개합니다.
+      </p>
+
+      <div class="about-grid">
+        <div class="card major">
+          <p class="section-label">MY MAJOR</p>
+          <h3>소프트웨어학과</h3>
+          <p style="margin-top:15px">
+            소프트웨어학과에서 프로그래밍과 데이터 분석에 대한
+            지식을 쌓고 있습니다. 특히 머신러닝과 딥러닝을 활용한
+            데이터 분석 및 모델 개발에 관심이 있으며,
+            다양한 프로젝트를 통해 실무 역량을 키워가고 있습니다.
+          </p>
+
+          <div class="major-detail">
+            <div class="major-item">
+              <span>💻</span>
+              <b>Software Development</b>
+              <p>프로그래밍을 통한 문제 해결 및 소프트웨어 개발</p>
+            </div>
+
+            <div class="major-item">
+              <span>📊</span>
+              <b>Data Analysis</b>
+              <p>데이터 전처리와 분석을 통한 유의미한 정보 도출</p>
+            </div>
+
+            <div class="major-item">
+              <span>🤖</span>
+              <b>Artificial Intelligence</b>
+              <p>머신러닝과 딥러닝을 활용한 모델 개발</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>👨‍💻 Developer</h3>
+          <p>
+            새로운 기술을 배우고 실제 프로젝트에 적용하는 과정을
+            중요하게 생각합니다. 문제를 분석하고 해결하는
+            개발자로 성장하고 있습니다.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>🎯 My Goal</h3>
+          <p>
+            데이터 분석과 인공지능 기술을 깊이 있게 학습하고
+            실제 문제를 해결할 수 있는
+            실력 있는 개발자가 되는 것이 목표입니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <p class="section-label">02 / TECHNICAL SKILLS</p>
+      <h2 class="section-title">What I Can Do</h2>
+      <p class="section-description">
+        데이터 분석부터 머신러닝과 딥러닝 모델 개발까지
+        인공지능 분야의 기술을 학습하고 있습니다.
+      </p>
+
+      <div class="skills-grid">
+
+        <div class="card">
+          <div class="skill-icon">📊</div>
+          <h3>Machine Learning</h3>
+          <p>
+            데이터 전처리부터 머신러닝 모델 생성까지
+            데이터 기반 문제 해결 과정을 학습하고 있습니다.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">Data Preprocessing</span>
+            <span class="tag">Feature Engineering</span>
+            <span class="tag">Model Building</span>
+            <span class="tag">Model Evaluation</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="skill-icon">🧠</div>
+          <h3>Deep Learning</h3>
+          <p>
+            PyTorch를 활용하여 딥러닝 모델을 구현하고
+            학습시키는 과정을 경험하고 있습니다.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">Neural Networks</span>
+            <span class="tag">Deep Learning</span>
+            <span class="tag">Model Training</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <p class="section-label">03 / MY PROJECTS</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-description">
+        학습과 실전 경험을 통해 문제를 해결했던 프로젝트입니다.
+      </p>
+
+      <div class="project-grid">
+
+        <div class="card project-card">
+          <p class="project-number">PROJECT 01</p>
+          <h3>이미지 분류 프로젝트</h3>
+          <p>
+            학교 캡스톤 프로젝트로 이미지 데이터를 활용한
+            분류 문제를 다루었습니다. 데이터와 모델을 활용한
+            지능형 시스템 개발 경험을 쌓았습니다.
+          </p>
+          <p class="project-type">SCHOOL CAPSTONE</p>
+        </div>
+
+        <div class="card project-card">
+          <p class="project-number">PROJECT 02</p>
+          <h3>AI 기반 집필 도구</h3>
+          <p>
+            KT 에이블스쿨에서 수행한 프로젝트입니다.
+            사용자의 글쓰기와 집필 과정을 지원하는
+            도구를 제작하며 서비스 개발 경험을 쌓았습니다.
+          </p>
+          <p class="project-type">KT AIVLE SCHOOL</p>
+        </div>
+
+        <div class="card project-card">
+          <p class="project-number">PROJECT 03</p>
+          <h3>음식 분석 프로젝트</h3>
+          <p>
+            학교 캡스톤 프로젝트 경험으로 음식 데이터를
+            분석하는 프로젝트를 수행했습니다.
+            데이터 분석과 활용에 대한 이해를 넓혔습니다.
+          </p>
+          <p class="project-type">SCHOOL PROJECT</p>
+        </div>
+
+        <div class="card project-card">
+          <p class="project-number">PROJECT 04</p>
+          <h3>Stock LLM</h3>
+          <p>
+            개인 프로젝트로 LLM과 주식 관련 기술을 탐구하며
+            인공지능을 실제 정보 활용에 연결하는
+            경험을 쌓았습니다.
+          </p>
+          <p class="project-type">PERSONAL PROJECT</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOBBY -->
+  <section id="hobby">
+    <div class="container">
+      <p class="section-label">04 / MY INTERESTS</p>
+      <h2 class="section-title">Beyond Development</h2>
+      <p class="section-description">
+        개발 공부뿐만 아니라 다양한 활동을 통해
+        새로운 지식을 쌓고 즐거움을 얻습니다.
+      </p>
+
+      <div class="hobby-grid">
+
+        <div class="card hobby-card">
+          <div class="emoji">🗄️ 💻</div>
+          <h3>SQL Problem Solving</h3>
+          <p>
+            SQL 문제를 꾸준히 풀어보며 데이터베이스 활용 능력과
+            쿼리 작성 능력을 향상시키는 것을 즐깁니다.
+            문제를 분석하고 효율적인 쿼리를 고민하는 과정에 흥미가 있습니다.
+          </p>
+        </div>
+
+        <div class="card hobby-card">
+          <div class="emoji">📈 📊</div>
+          <h3>Kaggle Data Analysis</h3>
+          <p>
+            Kaggle의 다양한 데이터셋을 활용하여
+            데이터 분석과 전처리를 진행하고,
+            데이터 속에서 의미 있는 패턴과 인사이트를 찾는 것을 좋아합니다.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <p class="section-label">05 / CONTACT</p>
+      <h2>Let's Build Something<br>
+        <span class="gradient">Amazing Together.</span>
+      </h2>
+      <p>
+        새로운 도전과 협업을 통해 함께 성장하고 싶습니다.
+      </p>
+      <a href="mailto:YOUR_EMAIL@example.com" class="btn btn-primary">
+        CONTACT ME ↗
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 MY PORTFOLIO. Designed & Developed with passion.
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(
+    '.card, .section-title, .section-label'
+  ).forEach(element => {
+    element.classList.add('reveal');
+    observer.observe(element);
+  });
+</script>
+
+</body>
+</html>

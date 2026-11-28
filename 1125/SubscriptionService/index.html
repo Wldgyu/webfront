@@ -43,7 +43,7 @@
           <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 3L14.3 8.2L20 9L15.8 12.9L16.9 18.6L12 15.8L7.1 18.6L8.2 12.9L4 9L9.7 8.2L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
           </svg>
-          <span>샘플 데이터</span>
+          <span>샘플<span class="hide-xs"> 데이터</span></span>
         </button>
 
         <div class="action-group" role="group" aria-label="JSON 백업 및 복원">
@@ -96,32 +96,67 @@
       </div>
       <div class="sim-banner-actions">
         <button type="button" id="btn-sim-restore-all" class="btn btn-sim-restore">모든 구독 다시 켜기</button>
+        <button type="button" id="btn-sim-purge-off" class="btn btn-sim-purge">OFF 항목 일괄 해지</button>
       </div>
     </section>
 
     <!-- 3-Column KPI Summary Grid -->
     <section class="kpi-grid" aria-label="핵심 지출 요약">
-      <!-- KPI 1: Monthly Total -->
+      <!-- KPI 1: Monthly Total + Paid/Remaining Progress + Target Budget -->
       <article class="card kpi-card kpi-card-primary">
         <div class="kpi-top">
           <span class="kpi-label">이번 달 총 고정지출</span>
-          <span class="kpi-icon-wrap kpi-icon-blue" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 2V22M17 5H9.5C7.57 5 6 6.57 6 8.5C6 10.43 7.57 12 9.5 12H14.5C16.43 12 18 13.57 18 15.5C18 17.43 16.43 19 14.5 19H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <button type="button" id="btn-budget-toggle" class="budget-edit-btn" title="월 구독 목표 예산을 설정합니다">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 20V10M18 20V4M6 20V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
-          </span>
+            <span id="btn-budget-label">예산 설정</span>
+          </button>
         </div>
+
         <div class="kpi-value-row">
           <strong id="kpi-monthly" class="kpi-value">0원</strong>
           <span id="kpi-monthly-original" class="kpi-original" hidden></span>
         </div>
         <div id="kpi-monthly-meta" class="kpi-meta">활성 구독 0개</div>
+
+        <!-- Inline Budget Editor -->
+        <form id="budget-editor" class="budget-editor" hidden>
+          <div class="input-with-unit budget-input-wrap">
+            <input type="number" id="field-budget" class="text-input budget-input" placeholder="예: 60000" min="1000" max="100000000" step="1000" aria-label="월 목표 예산 (원)" />
+            <span class="input-unit">원</span>
+          </div>
+          <button type="submit" class="btn btn-sm btn-primary">적용</button>
+          <button type="button" id="btn-budget-clear" class="btn btn-sm btn-ghost">해제</button>
+        </form>
+
+        <!-- Monthly Cashflow Progress (Already Paid vs Upcoming) -->
+        <div id="month-progress-wrap" class="kpi-meter-block" hidden>
+          <div class="kpi-meter-labels">
+            <span id="month-paid-label">결제 완료 0원</span>
+            <span id="month-remain-label">남은 예정 0원</span>
+          </div>
+          <div class="meter-track" title="오늘 날짜 기준 이번 달 결제 진행률">
+            <div id="month-progress-fill" class="meter-fill meter-fill-blue" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Monthly Target Budget Gauge -->
+        <div id="budget-gauge-wrap" class="kpi-meter-block" hidden>
+          <div class="kpi-meter-labels">
+            <span id="budget-target-label">목표 예산 0원</span>
+            <span id="budget-status-pill" class="budget-status-pill">0%</span>
+          </div>
+          <div class="meter-track">
+            <div id="budget-gauge-fill" class="meter-fill meter-fill-emerald" style="width:0%"></div>
+          </div>
+        </div>
       </article>
 
       <!-- KPI 2: Annual Projection & Relatable Analogy -->
       <article class="card kpi-card">
         <div class="kpi-top">
-          <span class="kpi-label">연간 환산 예상 지출</span>
+          <span class="kpi-label">연간<span class="hide-xs"> 환산</span> 예상 지출</span>
           <span class="kpi-icon-wrap kpi-icon-emerald" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M3 17L9 11L13 15L21 7M21 7H15M21 7V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -143,7 +178,7 @@
       <!-- KPI 3: Next Upcoming Payment D-Day -->
       <article class="card kpi-card">
         <div class="kpi-top">
-          <span class="kpi-label">가장 임박한 다음 결제</span>
+          <span class="kpi-label"><span class="hide-xs">가장 임박한 </span>다음 결제</span>
           <span id="kpi-dday-badge" class="dday-pill dday-pill-neutral">일정 없음</span>
         </div>
         <div class="kpi-value-row">
@@ -183,6 +218,15 @@
       <div id="preset-grid" class="preset-grid" role="list">
         <!-- Rendered dynamically by app.js -->
       </div>
+      <!-- Mobile-Only Compact Preset Dropdown Selector -->
+      <div id="mobile-preset-bar" class="mobile-preset-bar">
+        <label for="mobile-preset-select" class="sr-only">인기 구독 선택</label>
+        <select id="mobile-preset-select" class="text-input mobile-preset-select" aria-label="인기 구독 프리셋 선택">
+          <!-- Populated dynamically by app.js -->
+        </select>
+        <button type="button" id="btn-mobile-preset-add" class="btn btn-sm btn-primary">추가</button>
+        <button type="button" id="btn-mobile-preset-remove" class="btn btn-sm btn-danger-ghost" title="선택한 프리셋을 목록에서 제거" aria-label="선택한 프리셋 제거">×</button>
+      </div>
     </section>
 
     <!-- 2-Column Main Workspace -->
@@ -219,9 +263,30 @@
             <!-- Rendered dynamically by app.js -->
           </ul>
         </article>
+
+        <!-- Bar Chart Card (Simulation Comparison / Period Distribution) -->
+        <article class="card panel-card">
+          <div class="panel-header bar-panel-header">
+            <div>
+              <h2 class="section-title">지출 &amp; 절약 비교 차트</h2>
+              <p id="bar-chart-sub" class="panel-sub">해지 시뮬레이션 전후 카테고리별 월 지출</p>
+            </div>
+            <div id="bar-mode-toggle" class="segmented-control" role="group" aria-label="바 차트 보기 모드">
+              <button type="button" class="segment-btn is-active" data-bar-mode="compare" aria-pressed="true">절약 비교</button>
+              <button type="button" class="segment-btn" data-bar-mode="period" aria-pressed="false">구간 분포</button>
+            </div>
+          </div>
+
+          <div class="bar-chart-stage">
+            <canvas id="bar-chart" aria-label="구독 지출 및 절약 비교 바 차트" role="img"></canvas>
+            <div id="bar-chart-empty" class="chart-empty bar-chart-empty" hidden>
+              <p>구독을 추가하면 비교 바 차트가 표시됩니다</p>
+            </div>
+          </div>
+        </article>
       </div>
 
-      <!-- Right Column: Subscription List & Simulation Controls -->
+      <!-- Right Column: Subscription List / Calendar View & Simulation Controls -->
       <div class="workspace-right">
         <article class="card panel-card list-panel">
           <div class="panel-header list-panel-header">
@@ -231,6 +296,10 @@
             </div>
 
             <div class="list-controls">
+              <div id="view-mode-toggle" class="segmented-control view-toggle" role="group" aria-label="보기 방식 전환">
+                <button type="button" class="segment-btn is-active" data-view="list" aria-pressed="true">리스트</button>
+                <button type="button" class="segment-btn" data-view="calendar" aria-pressed="false">달력</button>
+              </div>
               <button type="button" id="btn-export-all-ics" class="btn btn-sm btn-ghost" title="활성 구독 전체를 하나의 캘린더(.ics) 파일로 내보내기">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <rect x="3" y="4" width="18" height="17" rx="3" stroke="currentColor" stroke-width="1.8" />
@@ -245,6 +314,24 @@
                 <option value="price-asc">금액 낮은순</option>
                 <option value="name">이름순</option>
               </select>
+            </div>
+          </div>
+
+          <!-- Search & Status Filter Toolbar -->
+          <div class="list-toolbar">
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+                <path d="M20 20L16.2 16.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              <input type="search" id="search-input" class="search-input" placeholder="서비스명, 결제수단, 메모 검색..." aria-label="구독 검색" />
+              <button type="button" id="btn-search-clear" class="search-clear-btn" aria-label="검색어 지우기" hidden>×</button>
+            </div>
+
+            <div id="status-filters" class="segmented-control status-filters" role="group" aria-label="구독 상태 필터">
+              <button type="button" class="segment-btn is-active" data-status="all" aria-pressed="true">전체</button>
+              <button type="button" class="segment-btn" data-status="active" aria-pressed="false">사용중</button>
+              <button type="button" class="segment-btn" data-status="inactive" aria-pressed="false">시뮬 OFF</button>
             </div>
           </div>
 
@@ -263,13 +350,32 @@
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
               <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
-            <span>스위치를 <strong>OFF</strong>로 내리면 삭제 없이 해지 시 절약 금액을 시뮬레이션할 수 있고, <strong>캘린더(.ics)</strong>로 3일 전 알림을 등록할 수 있어요.</span>
+            <span>스위치를 <strong>OFF</strong>로 내리면 삭제 없이 절약 시뮬레이션이 적용되며, <strong>달력 보기</strong>로 월간 결제일 분포를 확인할 수 있어요.</span>
           </div>
 
-          <!-- Subscription Items Container -->
+          <!-- Subscription Items Container (List View) -->
           <ul id="subscription-list" class="subscription-list" aria-label="등록된 구독 목록">
             <!-- Rendered dynamically by app.js -->
           </ul>
+
+          <!-- Monthly Billing Calendar View -->
+          <div id="calendar-view" class="calendar-view" hidden>
+            <div class="calendar-toolbar">
+              <div class="calendar-nav">
+                <button type="button" id="btn-cal-prev" class="icon-action-btn" aria-label="이전 달">&lsaquo;</button>
+                <strong id="cal-month-label" class="cal-month-label">2026년 11월</strong>
+                <button type="button" id="btn-cal-next" class="icon-action-btn" aria-label="다음 달">&rsaquo;</button>
+                <button type="button" id="btn-cal-today" class="btn btn-sm btn-ghost">오늘</button>
+              </div>
+              <span id="cal-month-summary" class="cal-month-summary">이번 달 활성 예정 0원</span>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            </div>
+            <div id="calendar-grid" class="calendar-grid" role="grid" aria-label="결제일 달력">
+              <!-- Rendered dynamically by app.js -->
+            </div>
+          </div>
 
           <!-- Empty State -->
           <div id="empty-state" class="empty-state" hidden>
@@ -319,36 +425,48 @@
         <div class="modal-body">
           <input type="hidden" id="field-id" />
 
-          <div class="form-group">
-            <label for="field-name" class="form-label">서비스 이름 <span class="required">*</span></label>
-            <input type="text" id="field-name" class="text-input" placeholder="예: 넷플릭스 스탠다드, 헬스장 정기권" maxlength="32" required />
-          </div>
-
-          <div class="form-group">
-            <label for="field-category" class="form-label">카테고리 <span class="required">*</span></label>
-            <select id="field-category" class="text-input" required>
-              <option value="영상/음악">영상/음악 (OTT, 스트리밍)</option>
-              <option value="쇼핑/배달">쇼핑/배달 (멤버십, 정기배송)</option>
-              <option value="AI/생산성">AI/생산성 (ChatGPT, 툴, 독서)</option>
-              <option value="클라우드/기타">클라우드/기타 (저장공간, 생활 고정비)</option>
-            </select>
-          </div>
-
-          <!-- Horizontal Price + Date/BillingDay Row -->
-          <div class="form-row-2 form-row-price-date">
+          <!-- Row 1: Service Name + Category -->
+          <div class="form-row-2 form-row-name-cat">
             <div class="form-group">
-              <div class="field-label-row">
-                <label for="field-price" class="form-label">월 결제 금액 <span class="required">*</span></label>
-              </div>
+              <label for="field-name" class="form-label">서비스 이름 <span class="required">*</span></label>
+              <input type="text" id="field-name" class="text-input" placeholder="예: 넷플릭스, 헬스장" maxlength="32" required />
+            </div>
+
+            <div class="form-group">
+              <label for="field-category" class="form-label">카테고리 <span class="required">*</span></label>
+              <select id="field-category" class="text-input" required>
+                <option value="영상/음악">영상/음악</option>
+                <option value="쇼핑/배달">쇼핑/배달</option>
+                <option value="AI/생산성">AI/생산성</option>
+                <option value="클라우드/기타">클라우드/기타</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: Billing Cycle + Monthly/Yearly Price (Compact 1-Row) -->
+          <div class="form-row-2 form-row-cycle-price">
+            <div class="form-group">
+              <label for="field-cycle" class="form-label">결제 주기 <span class="required">*</span></label>
+              <select id="field-cycle" class="text-input">
+                <option value="monthly">매월 결제</option>
+                <option value="yearly">매년 (÷12)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="field-price" id="field-price-label" class="form-label">월 결제 금액 <span class="required">*</span></label>
               <div class="input-with-unit">
                 <input type="number" id="field-price" class="text-input" placeholder="13500" min="100" max="100000000" step="100" required />
                 <span class="input-unit">원</span>
               </div>
             </div>
+          </div>
 
+          <!-- Row 3: Date/BillingDay + Split Share (1/N or Custom) -->
+          <div class="form-row-2 form-row-date-split">
             <div class="form-group">
               <div class="field-label-row date-mode-header">
-                <span id="date-field-label" class="form-label">기간 기준 <span class="required">*</span></span>
+                <span id="date-field-label" class="form-label">기간 <span class="required">*</span></span>
                 <div id="date-mode-toggle" class="segmented-control" role="group" aria-label="결제 기준 입력 방식 선택">
                   <button type="button" class="segment-btn is-active" data-mode="startDate" aria-pressed="true">시작일</button>
                   <button type="button" class="segment-btn" data-mode="billingDay" aria-pressed="false">결제일</button>
@@ -365,6 +483,58 @@
                   <span class="input-unit">일</span>
                 </div>
               </div>
+            </div>
+
+            <div class="form-group">
+              <div class="field-label-row date-mode-header">
+                <span class="form-label">내 부담</span>
+                <div id="split-mode-toggle" class="segmented-control" role="group" aria-label="부담 금액 계산 방식 선택">
+                  <button type="button" class="segment-btn is-active" data-split-mode="ratio" aria-pressed="true">1/N</button>
+                  <button type="button" class="segment-btn" data-split-mode="custom" aria-pressed="false">직접</button>
+                </div>
+              </div>
+
+              <div id="wrap-split-ratio" class="date-mode-panel">
+                <select id="field-split" class="text-input" aria-label="공유 인원 (1/N 분담)">
+                  <option value="1">1명 (혼자)</option>
+                  <option value="2">2명 (1/2)</option>
+                  <option value="3">3명 (1/3)</option>
+                  <option value="4">4명 (1/4)</option>
+                  <option value="5">5명 (1/5)</option>
+                  <option value="6">6명 (1/6)</option>
+                </select>
+              </div>
+
+              <div id="wrap-split-custom" class="date-mode-panel" hidden>
+                <div class="input-with-unit">
+                  <input type="number" id="field-custom-share" class="text-input" placeholder="5000" min="1" max="100000000" step="100" aria-label="내가 부담하는 금액 (원)" />
+                  <span class="input-unit">원</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4: Payment Method + One-Line Memo -->
+          <div class="form-row-2 form-row-pay-memo">
+            <div id="payment-field-group" class="form-group">
+              <label for="field-payment" class="form-label">결제 수단 (선택)</label>
+              <input type="text" id="field-payment" class="text-input" list="payment-suggestions" placeholder="예: 토스뱅크, 카카오페이" maxlength="20" />
+              <datalist id="payment-suggestions">
+                <option value="토스뱅크"></option>
+                <option value="신한카드"></option>
+                <option value="삼성카드"></option>
+                <option value="현대카드"></option>
+                <option value="KB국민카드"></option>
+                <option value="카카오페이"></option>
+                <option value="네이버페이"></option>
+                <option value="애플페이"></option>
+                <option value="계좌이체"></option>
+              </datalist>
+            </div>
+
+            <div id="memo-field-group" class="form-group">
+              <label for="field-memo" class="form-label">한 줄 메모 (선택)</label>
+              <input type="text" id="field-memo" class="text-input" placeholder="예: 통신사 할인, 파티 정산" maxlength="60" />
             </div>
           </div>
 
@@ -408,7 +578,7 @@
         </svg>
       </div>
       <h2 id="confirm-title" class="confirm-title">모든 구독 내역을 초기화할까요?</h2>
-      <p class="confirm-desc">브라우저에 저장된 모든 구독 목록이 삭제됩니다. 필요하다면 초기화 전에 <strong>JSON 백업</strong>을 먼저 진행해주세요.</p>
+      <p id="confirm-desc" class="confirm-desc">브라우저에 저장된 모든 구독 목록이 삭제됩니다. 필요하다면 초기화 전에 <strong>JSON 백업</strong>을 먼저 진행해주세요.</p>
       <div class="modal-footer modal-footer-center">
         <button type="button" id="btn-confirm-cancel" class="btn btn-ghost">취소</button>
         <button type="button" id="btn-confirm-ok" class="btn btn-danger">전체 초기화</button>
